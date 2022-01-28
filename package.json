@@ -1,6 +1,6 @@
 {
   "name": "@lunjs/object-path",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Access nested object properties using a dot path",
   "type": "module",
   "main": "lib/index.js",
