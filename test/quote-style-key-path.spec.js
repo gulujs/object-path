@@ -4,36 +4,32 @@ import { QuoteStyleKeyPath } from '../lib/index.js';
 describe('QuoteStyleKeyPath', () => {
   const keyPath = new QuoteStyleKeyPath();
 
-  describe('escape', () => {
+  describe('encode', () => {
     it('nothing changed', () => {
       const key = 'foobar';
-      expect(keyPath.escape(key)).to.equal(key);
+      expect(keyPath.encode(key)).to.equal(key);
     });
 
-    it('should be escaped', () => {
-      expect(keyPath.escape('')).to.equal("''");
-      expect(keyPath.escape('foo.bar')).to.equal("'foo.bar'");
-      expect(keyPath.escape('foo bar')).to.equal("'foo bar'");
-      expect(keyPath.escape('foo\'bar')).to.equal('"foo\'bar"');
-      expect(keyPath.escape('foo"bar')).to.equal("'foo\"bar'");
+    it('should be encoded', () => {
+      expect(keyPath.encode('')).to.equal("''");
+      expect(keyPath.encode('foo.bar')).to.equal("'foo.bar'");
+      expect(keyPath.encode('foo bar')).to.equal("'foo bar'");
+      expect(keyPath.encode('foo\'bar')).to.equal('"foo\'bar"');
+      expect(keyPath.encode('foo"bar')).to.equal("'foo\"bar'");
     });
   });
 
-  describe('unescape', () => {
+  describe('decode', () => {
     it('nothing changed', () => {
-      const key = 'foobar';
-      expect(keyPath.unescape(key)).to.equal(key);
+      expect(keyPath.decode('foobar')).to.equal('foobar');
+      expect(keyPath.decode("'foo.bar")).to.equal("'foo.bar");
     });
 
-    it('should be unescaped', () => {
-      expect(keyPath.unescape("'foo.bar'")).to.equal('foo.bar');
-      expect(keyPath.unescape("'foo bar'")).to.equal('foo bar');
-      expect(keyPath.unescape('"foo\'bar"')).to.equal('foo\'bar');
-      expect(keyPath.unescape("'foo\"bar'")).to.equal('foo"bar');
-    });
-
-    it('should throw Error when key is invalid', () => {
-      expect(() => keyPath.unescape("'foo.bar")).to.throw();
+    it('should be decoded', () => {
+      expect(keyPath.decode("'foo.bar'")).to.equal('foo.bar');
+      expect(keyPath.decode("'foo bar'")).to.equal('foo bar');
+      expect(keyPath.decode('"foo\'bar"')).to.equal('foo\'bar');
+      expect(keyPath.decode("'foo\"bar'")).to.equal('foo"bar');
     });
   });
 

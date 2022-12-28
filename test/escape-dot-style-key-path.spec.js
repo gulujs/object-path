@@ -4,31 +4,31 @@ import { EscapeDotStyleKeyPath } from '../lib/index.js';
 describe('EscapeDotStyleKeyPath', () => {
   const keyPath = new EscapeDotStyleKeyPath();
 
-  describe('escape', () => {
+  describe('encode', () => {
     it('nothing changed', () => {
-      expect(keyPath.escape('foobar')).to.equal('foobar');
-      expect(keyPath.escape('foo bar')).to.equal('foo bar');
+      expect(keyPath.encode('foobar')).to.equal('foobar');
+      expect(keyPath.encode('foo bar')).to.equal('foo bar');
     });
 
-    it('should be escaped', () => {
-      expect(keyPath.escape('foo.bar')).to.equal('foo\\.bar');
-      expect(keyPath.escape('foo[0]')).to.equal('foo\\[0]');
-      expect(keyPath.escape('\\')).to.equal('\\\\');
-      expect(keyPath.escape('\\.')).to.equal('\\\\\\.');
+    it('should be encoded', () => {
+      expect(keyPath.encode('foo.bar')).to.equal('foo\\.bar');
+      expect(keyPath.encode('foo[0]')).to.equal('foo\\[0]');
+      expect(keyPath.encode('\\')).to.equal('\\\\');
+      expect(keyPath.encode('\\.')).to.equal('\\\\\\.');
     });
   });
 
-  describe('unescape', () => {
+  describe('decode', () => {
     it('nothing changed', () => {
-      expect(keyPath.unescape('foobar')).to.equal('foobar');
-      expect(keyPath.unescape('foo bar')).to.equal('foo bar');
+      expect(keyPath.decode('foobar')).to.equal('foobar');
+      expect(keyPath.decode('foo bar')).to.equal('foo bar');
     });
 
-    it('should be unescaped', () => {
-      expect(keyPath.unescape('foo\\.bar')).to.equal('foo.bar');
-      expect(keyPath.unescape('foo\\[0]')).to.equal('foo[0]');
-      expect(keyPath.unescape('\\\\')).to.equal('\\');
-      expect(keyPath.unescape('\\\\\\.')).to.equal('\\.');
+    it('should be decoded', () => {
+      expect(keyPath.decode('foo\\.bar')).to.equal('foo.bar');
+      expect(keyPath.decode('foo\\[0]')).to.equal('foo[0]');
+      expect(keyPath.decode('\\\\')).to.equal('\\');
+      expect(keyPath.decode('\\\\\\.')).to.equal('\\.');
     });
   });
 
@@ -62,6 +62,7 @@ describe('EscapeDotStyleKeyPath', () => {
 
     it('invalid key', () => {
       expect(() => keyPath.parse('[[0]')).to.throw(/^Invalid key/);
+      expect(() => keyPath.parse('[0]]')).to.throw(/^Invalid key/);
       expect(() => keyPath.parse('foo[')).to.throw(/^Invalid key/);
       expect(() => keyPath.parse('[0]foo')).to.throw(/^Invalid key/);
       expect(() => keyPath.parse('[foo]')).to.throw(/^Invalid key/);

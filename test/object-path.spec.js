@@ -39,7 +39,13 @@ describe('ObjectPath', () => {
     expect(ObjectPath.set(obj, 'foo.cat', 'hi')).to.be.true;
     expect(obj.foo.cat).to.equal('hi');
 
-    expect(ObjectPath.set(obj, 'foo.dog.mouse', 'hi')).to.be.false;
+    expect(ObjectPath.set(obj, 'foo.dog.mouse', 'hi')).to.be.true;
+    expect(obj.foo.dog.mouse).to.equal('hi');
+
+    expect(ObjectPath.set(obj, 'foo.cows[0].eye', 'hi')).to.be.true;
+    expect(obj.foo.cows[0].eye).to.equal('hi');
+
+    expect(ObjectPath.set(1, 'a', 1)).to.be.false;
 
     expect(() => ObjectPath.set(obj, {}, null)).to.throw('The key is invalid');
 
@@ -76,6 +82,7 @@ describe('ObjectPath', () => {
     expect(ObjectPath.has(obj, 'foo.bar')).to.be.true;
     expect(ObjectPath.has(obj, ['foo', 'bar'])).to.be.true;
     expect(ObjectPath.has(obj, 'foo.cat')).to.be.false;
+    expect(ObjectPath.has(obj, [])).to.be.false;
 
     expect(() => ObjectPath.has(obj, {})).to.throw('The key is invalid');
 

@@ -1,34 +1,34 @@
 export interface KeyPath {
-  escape(key: string): string;
-  unescape(key: string): string;
-  parse(key: string): Array<string | number>;
-  stringify(path: Array<string | number>): string;
+  encode(key: string): string;
+  decode(key: string): string;
+  parse(path: string): Array<string | number>;
+  stringify(keys: Array<string | number>): string;
 }
 
-declare abstract class BaseKeyPath {
-  abstract escape(key: string): string;
-  abstract unescape(key: string): string;
-  abstract parse(key: string): Array<string | number>;
-  stringify(path: Array<string | number>): string;
+declare abstract class BaseKeyPath implements KeyPath {
+  abstract encode(key: string): string;
+  abstract decode(key: string): string;
+  abstract parse(path: string): Array<string | number>;
+  stringify(keys: Array<string | number>): string;
 }
 
-export class EscapeDotStyleKeyPath extends BaseKeyPath implements KeyPath {
-  escape(key: string): string;
-  unescape(key: string): string;
-  parse(key: string): (string | number)[];
+export class EscapeDotStyleKeyPath extends BaseKeyPath {
+  encode(key: string): string;
+  decode(key: string): string;
+  parse(path: string): Array<string | number>;
 }
 
 export interface QuoteStyleKeyPathOptions {
   /**
-   * @default '[\\w$-]+'
+   * @default '[\\w-]+'
    */
-   keySegment?: string;
+  objectKeyPattern?: string;
 }
-export class QuoteStyleKeyPath extends BaseKeyPath implements KeyPath {
+export class QuoteStyleKeyPath extends BaseKeyPath {
   constructor(options?: QuoteStyleKeyPathOptions);
-  escape(key: string): string;
-  unescape(key: string): string;
-  parse(key: string): (string | number)[];
+  encode(key: string): string;
+  decode(key: string): string;
+  parse(path: string): Array<string | number>;
 }
 
 export interface ObjectValueOptions {
@@ -39,10 +39,10 @@ export interface ObjectValueOptions {
 }
 export class ObjectValue {
   constructor(options?: ObjectValueOptions);
-  get(obj: unknown, path: string[]): unknown;
-  set(obj: unknown, path: string[], value: unknown): boolean;
-  del(obj: unknown, path: string[]): boolean;
-  has(obj: unknown, path: string[]): boolean;
+  get(obj: unknown, keys: string[]): unknown;
+  set(obj: unknown, keys: string[], value: unknown): boolean;
+  del(obj: unknown, keys: string[]): boolean;
+  has(obj: unknown, keys: string[]): boolean;
 }
 
 export interface ObjectPathOptions {
@@ -54,23 +54,23 @@ export class ObjectPath {
   static objectValue: ObjectValue;
   static quoteStyle: ObjectPath;
   static escapeDotStyle: ObjectPath;
-  static get(obj: unknown, key: string): unknown;
-  static get(obj: unknown, path: string[]): unknown;
-  static set(obj: unknown, key: string, value: unknown): boolean;
-  static set(obj: unknown, path: string[], value: unknown): boolean;
-  static del(obj: unknown, key: string): boolean;
-  static del(obj: unknown, path: string[]): boolean;
-  static has(obj: unknown, key: string): boolean;
-  static has(obj: unknown, path: string[]): boolean;
+  static get(obj: unknown, path: string): unknown;
+  static get(obj: unknown, keys: string[]): unknown;
+  static set(obj: unknown, path: string, value: unknown): boolean;
+  static set(obj: unknown, keys: string[], value: unknown): boolean;
+  static del(obj: unknown, path: string): boolean;
+  static del(obj: unknown, keys: string[]): boolean;
+  static has(obj: unknown, path: string): boolean;
+  static has(obj: unknown, keys: string[]): boolean;
 
   keyPath: KeyPath;
   constructor(options?: ObjectPathOptions);
-  get(obj: unknown, key: string): unknown;
-  get(obj: unknown, path: string[]): unknown;
-  set(obj: unknown, key: string, value: unknown): boolean;
-  set(obj: unknown, path: string[], value: unknown): boolean;
-  del(obj: unknown, key: string): boolean;
-  del(obj: unknown, path: string[]): boolean;
-  has(obj: unknown, key: string): boolean;
-  has(obj: unknown, path: string[]): boolean;
+  get(obj: unknown, path: string): unknown;
+  get(obj: unknown, keys: string[]): unknown;
+  set(obj: unknown, path: string, value: unknown): boolean;
+  set(obj: unknown, keys: string[], value: unknown): boolean;
+  del(obj: unknown, path: string): boolean;
+  del(obj: unknown, keys: string[]): boolean;
+  has(obj: unknown, path: string): boolean;
+  has(obj: unknown, keys: string[]): boolean;
 }
