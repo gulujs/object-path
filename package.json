@@ -1,6 +1,6 @@
 {
   "name": "@gulujs/object-path",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Access nested object properties using a dot path",
   "type": "module",
   "main": "lib/index.js",
@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint --report-unused-disable-directives --ignore-path .gitignore --ext .js ./lib ./test",
     "test": "mocha",
-    "coverage": "c8 pnpm test"
+    "coverage": "c8 pnpm test",
+    "prepublishOnly": "pnpm run lint && pnpm test"
   },
   "repository": {
     "type": "git",
