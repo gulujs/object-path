@@ -1,15 +1,15 @@
-# @lunjs/object-path
+# @gulujs/object-path
 
 ## Installation
 
 ```sh
-npm install @lunjs/object-path
+npm install @gulujs/object-path
 ```
 
 ## Usage
 
 ```js
-import { ObjectPath } from '@lunjs/object-path';
+import { ObjectPath } from '@gulujs/object-path';
 
 const obj = { foo: [{ bar: 'Hello' }] };
 

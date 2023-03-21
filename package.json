@@ -1,6 +1,6 @@
 {
   "name": "@gulujs/object-path",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Access nested object properties using a dot path",
   "type": "module",
   "main": "lib/index.js",
