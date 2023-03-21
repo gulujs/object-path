@@ -23,6 +23,7 @@ export interface QuoteStyleKeyPathOptions {
    * @default '[\\w-]+'
    */
   objectKeyPattern?: string;
+  preferQuote?: "'" | '"';
 }
 export class QuoteStyleKeyPath extends BaseKeyPath {
   constructor(options?: QuoteStyleKeyPathOptions);
