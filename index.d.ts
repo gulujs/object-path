@@ -22,8 +22,15 @@ export interface QuoteStyleKeyPathOptions {
   /**
    * @default '[\\w-]+'
    */
-  objectKeyPattern?: string;
+  bareKeyPattern?: string;
+  /**
+   * @default "'"
+   */
   preferQuote?: "'" | '"';
+  /**
+   * @default false
+   */
+  escapeTabChar?: boolean;
 }
 export class QuoteStyleKeyPath extends BaseKeyPath {
   constructor(options?: QuoteStyleKeyPathOptions);

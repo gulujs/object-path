@@ -41,6 +41,8 @@ key = ObjectPath.quoteStyle.keyPath.stringify(path);
 console.log(key); // `users[0].'user name'`
 ```
 
+- Quote style is implemented base on [TOML Keys](https://toml.io/en/v1.0.0#keys)
+
 ## License
 
 [MIT](LICENSE)

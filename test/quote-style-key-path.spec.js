@@ -17,6 +17,10 @@ describe('QuoteStyleKeyPath', () => {
       expect(keyPath.encode('foo\'bar')).to.equal('"foo\'bar"');
       expect(keyPath.encode('foo"bar')).to.equal("'foo\"bar'");
     });
+
+    it('should encode control characters', () => {
+      expect(keyPath.encode(`${String.fromCodePoint(0)}\n"\\${String.fromCodePoint(0x1F)}`)).to.equal('"\\u0000\\n\\"\\\\\\u001F"');
+    });
   });
 
   describe('decode', () => {
@@ -30,6 +34,14 @@ describe('QuoteStyleKeyPath', () => {
       expect(keyPath.decode("'foo bar'")).to.equal('foo bar');
       expect(keyPath.decode('"foo\'bar"')).to.equal('foo\'bar');
       expect(keyPath.decode("'foo\"bar'")).to.equal('foo"bar');
+    });
+
+    it('should decode control characters', () => {
+      expect(keyPath.decode('"\\u0000\\n\\"\\\\\\u001F"')).to.equal(`${String.fromCodePoint(0)}\n"\\${String.fromCodePoint(0x1F)}`);
+    });
+
+    it('should decode Unicode character', () => {
+      expect(keyPath.decode('"\u261D\\U0001F601"')).to.equal('☝😁');
     });
   });
 
