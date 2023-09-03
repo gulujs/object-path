@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { EscapeDotStyleKeyPath } from '../lib/index.js';
 
 describe('EscapeDotStyleKeyPath', () => {
@@ -6,29 +6,29 @@ describe('EscapeDotStyleKeyPath', () => {
 
   describe('encode', () => {
     it('nothing changed', () => {
-      expect(keyPath.encode('foobar')).to.equal('foobar');
-      expect(keyPath.encode('foo bar')).to.equal('foo bar');
+      expect(keyPath.encode('foobar')).toBe('foobar');
+      expect(keyPath.encode('foo bar')).toBe('foo bar');
     });
 
     it('should be encoded', () => {
-      expect(keyPath.encode('foo.bar')).to.equal('foo\\.bar');
-      expect(keyPath.encode('foo[0]')).to.equal('foo\\[0]');
-      expect(keyPath.encode('\\')).to.equal('\\\\');
-      expect(keyPath.encode('\\.')).to.equal('\\\\\\.');
+      expect(keyPath.encode('foo.bar')).toBe('foo\\.bar');
+      expect(keyPath.encode('foo[0]')).toBe('foo\\[0]');
+      expect(keyPath.encode('\\')).toBe('\\\\');
+      expect(keyPath.encode('\\.')).toBe('\\\\\\.');
     });
   });
 
   describe('decode', () => {
     it('nothing changed', () => {
-      expect(keyPath.decode('foobar')).to.equal('foobar');
-      expect(keyPath.decode('foo bar')).to.equal('foo bar');
+      expect(keyPath.decode('foobar')).toBe('foobar');
+      expect(keyPath.decode('foo bar')).toBe('foo bar');
     });
 
     it('should be decoded', () => {
-      expect(keyPath.decode('foo\\.bar')).to.equal('foo.bar');
-      expect(keyPath.decode('foo\\[0]')).to.equal('foo[0]');
-      expect(keyPath.decode('\\\\')).to.equal('\\');
-      expect(keyPath.decode('\\\\\\.')).to.equal('\\.');
+      expect(keyPath.decode('foo\\.bar')).toBe('foo.bar');
+      expect(keyPath.decode('foo\\[0]')).toBe('foo[0]');
+      expect(keyPath.decode('\\\\')).toBe('\\');
+      expect(keyPath.decode('\\\\\\.')).toBe('\\.');
     });
   });
 
@@ -36,7 +36,7 @@ describe('EscapeDotStyleKeyPath', () => {
     it('basic', () => {
       // eslint-disable-next-line quotes
       const key = `users[0].user \\. data.user ' name.first " name`;
-      expect(keyPath.parse(key)).to.deep.equal([
+      expect(keyPath.parse(key)).toEqual([
         'users',
         0,
         'user . data',
@@ -44,31 +44,31 @@ describe('EscapeDotStyleKeyPath', () => {
         'first " name'
       ]);
 
-      expect(keyPath.parse('foo.')).to.deep.equal(['foo', '']);
-      expect(keyPath.parse('foo.\\')).to.deep.equal(['foo', '\\']);
-      expect(keyPath.parse('\\foo')).to.deep.equal(['\\foo']);
-      expect(keyPath.parse('\\[[0]')).to.deep.equal(['[', 0]);
-      expect(keyPath.parse('[0][0]')).to.deep.equal([0, 0]);
+      expect(keyPath.parse('foo.')).toEqual(['foo', '']);
+      expect(keyPath.parse('foo.\\')).toEqual(['foo', '\\']);
+      expect(keyPath.parse('\\foo')).toEqual(['\\foo']);
+      expect(keyPath.parse('\\[[0]')).toEqual(['[', 0]);
+      expect(keyPath.parse('[0][0]')).toEqual([0, 0]);
     });
 
     it('empty string', () => {
-      expect(keyPath.parse('')).to.deep.equal(['']);
+      expect(keyPath.parse('')).toEqual(['']);
     });
 
     it('array', () => {
-      expect(keyPath.parse('[0]')).to.deep.equal([0]);
-      expect(keyPath.parse('\\\\[0]')).to.deep.equal(['\\', 0]);
+      expect(keyPath.parse('[0]')).toEqual([0]);
+      expect(keyPath.parse('\\\\[0]')).toEqual(['\\', 0]);
     });
 
     it('invalid key', () => {
-      expect(() => keyPath.parse('[[0]')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[0]]')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('foo[')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[0]foo')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[foo]')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[.]')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[\\]')).to.throw(/^Invalid key/);
-      expect(() => keyPath.parse('[0]\\')).to.throw(/^Invalid key/);
+      expect(() => keyPath.parse('[[0]')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[0]]')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('foo[')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[0]foo')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[foo]')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[.]')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[\\]')).toThrowError(/^Invalid key/);
+      expect(() => keyPath.parse('[0]\\')).toThrowError(/^Invalid key/);
     });
   });
 
@@ -82,7 +82,7 @@ describe('EscapeDotStyleKeyPath', () => {
         'first " name'
       ];
       // eslint-disable-next-line quotes
-      expect(keyPath.stringify(path)).to.equal(`users[0].user \\. data.user ' name.first " name`);
+      expect(keyPath.stringify(path)).toBe(`users[0].user \\. data.user ' name.first " name`);
     });
   });
 });
