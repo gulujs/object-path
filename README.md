@@ -15,7 +15,7 @@ const obj = { foo: [{ bar: 'Hello' }] };
 
 /**
  * default is `escapeDotStyle`
- * `quoteStyle` can access by `ObjectPath.quoteStyle.get('obj', 'foo[0].bar')`
+ * `quoteStyle` can access by `ObjectPath.quoteStyle.get(obj, 'foo[0].bar')`
  */
 console.log(ObjectPath.get(obj, 'foo[0].bar')); // 'Hello'
 
